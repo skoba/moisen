@@ -19,7 +19,8 @@ export default function Encounter() {
       <h1>診察</h1>
       <div>患者情報</div>
       氏名：小林慎治、54歳、男性
-      <div>受診理由（主訴・症状）</div>
+      {/* <div>受診理由（主訴・症状）</div> */}
+      <h2>受診理由（主訴・症状）</h2>
         {
         Object.keys(data.data.symp2diag)
         // [
@@ -70,7 +71,8 @@ export default function Encounter() {
       <div>検査結果</div>
       {symps.size != 0 &&
 
-      <div>考えられる疾患
+      <div>
+        <h2>考えられる疾患</h2>
         {(() => {
           const diags = [...symps].map((symp) => {
             return data.data.symp2diag[symp];
