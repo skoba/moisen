@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import data from "./data";
+import { useStore } from "@/stores/encounter";
 
 export default function Encounter() {
   const [flag, setFlag] = useState(false);
@@ -12,10 +13,14 @@ export default function Encounter() {
   const [symps, setSymps] = useState(new Set());
   const [diags, setDiags] = useState(new Set());
 
+  const sympsStore = useStore((state) => state.symps);
+
   return (
     <main className="flex min-h-screen flex-col gap-4 p-24">
+      <a href="/encounter">/encounter</a><br/>
+      {JSON.stringify(sympsStore)}<br/>
       {/* {JSON.stringify(data.data.diag2exam)}<br/> */}
-      {JSON.stringify(data.diag2exam['大腸がん'])}<br/>
+      {/* {JSON.stringify(data.diag2exam['大腸がん'])}<br/> */}
       <h1>診察</h1>
       <div>患者情報</div>
       氏名：小林慎治、54歳、男性
