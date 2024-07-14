@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { useState } from "react";
 
-const data = require('./data.js');
+import data from "./data";
 
 export default function Encounter() {
   const [flag, setFlag] = useState(false);
@@ -15,14 +15,14 @@ export default function Encounter() {
   return (
     <main className="flex min-h-screen flex-col gap-4 p-24">
       {/* {JSON.stringify(data.data.diag2exam)}<br/> */}
-      {JSON.stringify(data.data.diag2exam['大腸がん'])}<br/>
+      {JSON.stringify(data.diag2exam['大腸がん'])}<br/>
       <h1>診察</h1>
       <div>患者情報</div>
       氏名：小林慎治、54歳、男性
       {/* <div>受診理由（主訴・症状）</div> */}
       <h2>受診理由（主訴・症状）</h2>
         {
-        Object.keys(data.data.symp2diag)
+        Object.keys(data.symp2diag)
         // [
         //   {
         //     label: '発熱',
@@ -75,7 +75,7 @@ export default function Encounter() {
         <h2>今の検査で考えられる病気は以下の通りです。</h2>
         {(() => {
           const diags = [...symps].map((symp) => {
-            return data.data.symp2diag[symp];
+            return data.symp2diag[symp];
           }).flat();
 
           return [...(new Set(diags))].map((diag) => <>

@@ -31,7 +31,7 @@ const exams = {
     
 }
 
-exports.data = {
+export default {
     symp2diag,
     diag2exam,
     exams
