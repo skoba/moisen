@@ -1,4 +1,8 @@
-import Image from "next/image";
+import { FaUserDoctor } from "react-icons/fa6";
+
+export const metadata = {
+  title: 'ホーム'
+};
 
 export default function Home() {
   return (
@@ -10,6 +14,10 @@ export default function Home() {
       <ul>
         <li><a href="/encounter">診察</a></li>
       </ul>
+
+      <button className="btn">btn</button>
+
+      <FaUserDoctor className="m-4 text-xl text-gray-600" />
     </main>
   );
 }
