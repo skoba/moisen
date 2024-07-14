@@ -14,6 +14,8 @@ export default function Home() {
       <ul>
         <li><a href="/encounter">診察</a></li>
       </ul>
+
+      <button className="btn">btn</button>
     </main>
   );
 }
