@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## このソフトウェアについて
+
+　このソフトウェアは「[第3回メディカルハッカソン](https://moicen-forest.connpass.com/event/317683/)」で作られたものです。病院を受診したときに、いろいろな検査を受けることになりますが、どのような意図があってその検査を受けることになったのかよくわからないことがあります。どのような疾患を疑ってこの検査を医師が患者に提案し、患者側もそれを理解して検査を受けるという流れをITを使って可視化したいというのがこのソフトウェアでの提案内容です。
+
+
 ## Getting Started
 
 First, run the development server:
