@@ -2,8 +2,10 @@
 
 import data from "./data";
 import { Fragment } from "react";
-import { useStore } from "@/stores/encounter";
+import { FcHome } from "react-icons/fc";
+import { twMerge } from 'tailwind-merge'
 
+import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
 
 export default function PatientPage() {
@@ -25,10 +27,22 @@ export default function PatientPage() {
     <main className="flex min-h-screen flex-col gap-4 p-24">
       {/** for debug */}
       {<div className="p-4 block bg-gray-300/70 rounded">
-        <a
-          className="[&:link]:underline text-blue-500 hover:text-red-500"
-          href="/encounter"
-        >/encounter</a><br/>
+        <div className={twMerge(
+          "flex items-center gap-2",
+          [
+            "[&:not(:first-child)]:[&>a]:flex",
+            "[&:not(:first-child)]:[&>a]:relative",
+            "[&:not(:first-child)]:[&>a]:gap-2",
+            "[&:not(:first-child)]:[&>a]:before:content-['>']",
+            "[&:not(:first-child)]:[&>a]:before:text-gray-500",
+          ]
+        )}>
+          <a href="/"><FcHome /></a>
+          <a
+            className="text-blue-500 hover:text-red-500"
+            href="/encounter"
+          >encounter</a><br/>
+        </div>
         <br/>
         symps: {JSON.stringify(sympsStore)}<br/>
         diags: {JSON.stringify(diagsStore)}<br/>
