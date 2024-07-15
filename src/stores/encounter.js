@@ -10,6 +10,7 @@ const initialState = {
     events: [],
 
     dialog: "",
+    tmpDialog: "",
     isSubmittedDialog: false,
 };
 
@@ -58,6 +59,7 @@ const useStore = create(
 
             // setText: (newText) => set({ text: newText }),
             updateDialog: (dialog) => set({ dialog }),
+            updateTmpDialog: (tmpDialog) => set({ tmpDialog }),
             updateIsSubmittedDialog: (isSubmittedDialog) => set({ isSubmittedDialog }),
             // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
             // removeAllBears: () => set({ bears: 0 }),

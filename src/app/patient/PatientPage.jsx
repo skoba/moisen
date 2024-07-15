@@ -1,6 +1,6 @@
 'use client';
 
-import data from "../encounter/data";
+import data from "@/app/_/data/encounter";
 import { Fragment } from "react";
 import { FcHome } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
@@ -10,7 +10,7 @@ import H2Block from "../_/components/H2Block";
 import PatientInfo from "../_/components/PatientInfo";
 
 import DatePicker from "../_/components/DatePicker";
-import { format, formatISO } from '@/libs/date-fns';
+import { format, formatISO, parse } from '@/libs/date-fns';
 
 export default function PatientPage() {
   const initStore = useStore((state) => state.init);
@@ -34,11 +34,11 @@ export default function PatientPage() {
   const dialogStore = useStore((state) => state.dialog);
   // const updateDialogStore = useStore((state) => state.updateDialog);
 
-  const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialogStore);
-  const updateSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialogStore);
+  // const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialogStore);
+  // const updateSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialogStore);
 
   return (<>
-    <main className="flex min-h-screen flex-col gap-4 p-24  bg-white text-lg">
+    <main className="flex min-h-screen flex-col gap-4 p-24 text-lg">
       <PatientInfo />
       {!!sympsStore.length && (<>
         <H2Block heading={'受診理由（主訴・症状）'}>
@@ -52,7 +52,7 @@ export default function PatientPage() {
 
       {!!dialogStore && (<>
         <H2Block heading={'診療記録'}>
-          <div>{dialogStore}</div>
+          <div className="whitespace-pre">{dialogStore}</div>
         </H2Block>
       </>)}
 
@@ -100,20 +100,34 @@ export default function PatientPage() {
                   </label>
 
                   {examsStore.includes(exam) && (<>
-                    <DatePicker
-                      dateFormat='yyyy/MM/dd'
-                      selected={(new Map(eventsStore)).get(exam)?.start ?? null}
-                      onChange={(date, event) => {
-                        const value = (() => {
-                          if (!date) return '';
-                          // const _date = isEndOfDay ? endOfDay(date) : date;
-                          const _date = date;
-                          // return formatString ? format(_date, formatString) : formatISO(_date);
-                          return formatISO(_date);
-                        })();
+                    <div className="ml-4">
+                      <DatePicker
+                        className="border border-[--foreground-rgb] rounded"
+                        dateFormat='yyyy/MM/dd HH:mm'
+                        // timeFormat='HH:mm'
+                        showTimeSelect
+                        filterTime={(time) => {
+                          const current = new Date();
+                          const selected = new Date(time);
+                          return current.getTime() < selected.getTime();
+                        }}
+                        selected={
+                          (new Map(eventsStore)).get(exam)?.start
+                            ? new Date((new Map(eventsStore)).get(exam).start)
+                            : null
+                        }
+                        onChange={(date, event) => {
+                          const value = (() => {
+                            if (!date) return '';
+                            // const _date = isEndOfDay ? endOfDay(date) : date;
+                            const _date = date;
+                            // return formatString ? format(_date, formatString) : formatISO(_date);
+                            return formatISO(_date);
+                          })();
 
-                        // console.warn(event?.type);
-                        if (event?.type === 'click') {
+                          // console.warn(event?.type);
+                          // if (event?.type === 'click') {
+                          // }
                           if (value) {
                             addEventStore({
                               title: exam,
@@ -122,9 +136,9 @@ export default function PatientPage() {
                           } else {
                             deleteEventStore(exam);
                           }
-                        }
-                      }}
-                    />
+                        }}
+                      />
+                    </div>
                   </>)}
 
                   {!!examData && (<details className="ml-4">

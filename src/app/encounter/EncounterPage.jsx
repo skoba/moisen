@@ -1,6 +1,6 @@
 'use client';
 
-import data from "./data";
+import data from "@/app/_/data/encounter";
 import { Fragment, useState } from "react";
 import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
@@ -36,6 +36,9 @@ export default function EncounterPage() {
   const dialogStore = useStore((state) => state.dialog);
   const updateDialogStore = useStore((state) => state.updateDialog);
 
+  const tmpDialogStore = useStore((state) => state.tmpDialog);
+  const updateTmpDialogStore = useStore((state) => state.updateTmpDialog);
+
   const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialog);
   const updateIsSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialog);
 
@@ -46,10 +49,8 @@ export default function EncounterPage() {
     setIsRecording,
   } = useSpeechRecognition();
 
-  const [tmpText, setTmpText] = useState("");
-
   return (<>
-    <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
+    <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 text-lg">
       <div className="flex-1">
         <div className="border p-4 rounded-md shadow-md mb-4">
           <PatientInfo />
@@ -82,54 +83,52 @@ export default function EncounterPage() {
 
           <H2Block
             heading={<>
-              <span className="flex items-center justify-between">
+              <span className="flex flex-wrap items-center justify-between">
                 会話記録
-                <button
-                  className="btn"
-                  disabled={isSubmittedDialogStore || transcript}
-                  onClick={() => {
-                    setIsRecording(prev => {
-                      const next = !prev;
+                <span className="flex flex-wrap items-center gap-2">
+                  {!!transcript && <span className="text-base font-normal">processing...</span>}
+                  <button
+                    className="btn"
+                    // disabled={isSubmittedDialogStore || transcript}
+                    disabled={isSubmittedDialogStore}
+                    onClick={() => {
+                      setIsRecording(prev => {
+                        const next = !prev;
 
-                      if (next) {
-                        ;
-                      } else {
-                        setTmpText(tmpText + text);
-                      }
+                        if (next) {
+                          ;
+                        } else {
+                          updateTmpDialogStore(tmpDialogStore + text);
+                        }
 
-                      return next;
-                    });
-                  }}
-                >
-                  {isRecording ? <FaMicrophone /> : <FaMicrophoneSlash /> }
-                </button>
+                        return next;
+                      });
+                    }}
+                  >
+                    {isRecording ? <FaMicrophoneSlash /> : <FaMicrophone /> }
+                  </button>
+                </span>
               </span>
             </>}
           >
-            {/* <div>
-              <p>transcript: {transcript}</p>
-              <p>text: {text}</p>
-            </div> */}
             <textarea
-              className="textarea textarea-bordered w-full"
-              // placeholder="Bio"
-              // readOnly
+              className="textarea textarea-bordered w-full [field-sizing:content]"
               readOnly={isRecording || isSubmittedDialogStore}
               value={
                 isSubmittedDialogStore
                   ? dialogStore
-                  : isRecording ? (tmpText + text + transcript) : tmpText
+                  : isRecording ? (tmpDialogStore + text + transcript) : tmpDialogStore
               }
               onChange={(event) => {
-                setTmpText(event.value);
+                updateTmpDialogStore(event.value ?? '');
               }}
             />
 
             <button
               className="btn"
-              disabled={isRecording || isSubmittedDialogStore}
+              disabled={isRecording || isSubmittedDialogStore || !tmpDialogStore}
               onClick={() => {
-                updateDialogStore(tmpText);
+                updateDialogStore(tmpDialogStore);
                 updateIsSubmittedDialogStore(true);
               }}
             >
