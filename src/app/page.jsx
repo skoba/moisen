@@ -1,7 +1,7 @@
 import { FaUserDoctor } from "react-icons/fa6";
 
 export const metadata = {
-  title: 'ホーム'
+  title: '電子カルテ作成・共有アプリ',
 };
 
 export default function Home() {
