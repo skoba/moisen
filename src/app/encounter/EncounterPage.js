@@ -2,7 +2,7 @@
 
 import data from "./data";
 import { Fragment } from "react";
-import { FcHome } from "react-icons/fc";
+import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
 
 import { useStore } from "@/stores/encounter";
@@ -24,121 +24,117 @@ export default function EncounterPage() {
   // const deleteExamStore = useStore((state) => state.deleteExam);
 
   return (<>
-    <main className="flex min-h-screen flex-col gap-4 p-24">
-      {/** for debug */}
-      {<div className="p-4 block bg-gray-300/70 rounded">
-        <div className={twMerge(
-          "flex items-center gap-2",
-          [
-            "[&:not(:first-child)]:[&>a]:flex",
-            "[&:not(:first-child)]:[&>a]:relative",
-            "[&:not(:first-child)]:[&>a]:gap-2",
-            "[&:not(:first-child)]:[&>a]:before:content-['>']",
-            "[&:not(:first-child)]:[&>a]:before:text-gray-500",
-          ]
-        )}>
-          <a href="/"><FcHome /></a>
-          <a
-            className="text-blue-500 hover:text-red-500"
-            href="/patient"
-          >patient</a><br/>
-        </div>
-        <br/>
-        symps: {JSON.stringify(sympsStore)}<br/>
-        diags: {JSON.stringify(diagsStore)}<br/>
-        exams: {JSON.stringify(examsStore)}<br/>
-      </div>}
+    <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
+      <div className="flex-1">
+        <div className="border p-4 rounded-md shadow-md mb-4">
+          <H2Block heading={'患者情報'}>
+            <p className="text-md">小林慎治、54歳、男性</p>
+          </H2Block>
 
-      <button
-        className="p-2 w-fit text-white bg-gray-500 rounded"
-        onClick={() => initStore()}
-      >リセット</button><br/>
+          <H2Block heading={'現病歴'}>
+            <div>特になし</div>
+          </H2Block>
 
-      <h1>診察</h1>
-      <div>患者情報</div>
-      氏名：小林慎治、54歳、男性
+          <H2Block heading={'検査結果'}>
+            <div>異常なし</div>
+          </H2Block>
 
-      <H2Block heading={'受診理由（主訴・症状）'}>
-        {Object.keys(data.symp2diag).map((symp) => <Fragment key={symp}>
-          <div>
-            <label>
-              <input
-                id="symptom"
-                type="checkbox"
-                name="interest"
-                value={symp}
-                checked={sympsStore.includes(symp)}
-                onChange={(event) => {
-                  const checked = event.target.checked;
-
-                  if (checked) {
-                    addSympStore(symp);
-                  } else {
-                    deleteSympStore(symp);
-                  }
-                }}
-              />
-              {symp}
-            </label>
-          </div>
-        </Fragment>)}
-      </H2Block>
-
-      <div>現病歴</div>
-
-      <div>検査結果</div>
-
-      {!!sympsStore.length && (<>
-        <H2Block heading='考えられる疾患'>
-          {(() => {
-            const diags = new Set(
-              sympsStore
-                .map((symp) =>  data.symp2diag[symp])
-                .flat()
-            );
-
-            return [...diags].map((diag) => <Fragment key={diag}>
-              <div>
-                <label>
+          <H2Block heading={'受診理由（主訴・症状）'}>
+            {Object.keys(data.symp2diag).map((symp) => <Fragment key={symp}>
+              <div className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-lg">
                   <input
-                    // id="symptom"
+                    id="symptom"
                     type="checkbox"
-                    // name="interest"
-                    value={diag}
-                    checked={diagsStore.includes(diag)}
+                    name="interest"
+                    value={symp}
+                    checked={sympsStore.includes(symp)}
                     onChange={(event) => {
                       const checked = event.target.checked;
 
                       if (checked) {
-                        addDiagStore(diag);
+                        addSympStore(symp);
                       } else {
-                        deleteDiagStore(diag);
+                        deleteSympStore(symp);
                       }
                     }}
+                    className="form-checkbox h-5 w-5 text-blue-600"
                   />
-                  {diag}
+                  {symp}
                 </label>
               </div>
-            </Fragment>);
-          })()}
-        </H2Block>
-      </>)}
+            </Fragment>)}
+          </H2Block>
+        </div>
+      </div>
 
-      {!!examsStore.length && (<>
-        <H2Block heading='追加検査'>
-          {examsStore.map((exam) => <Fragment key={exam}>
-            <div>
-              {exam}
-            </div>
-          </Fragment>)}
-        </H2Block>
-      </>)}
+      {/* <div className="border-l border-gray-300"></div> 区切り線を追加 */}
 
-      <div>追加検査
-        大腸内視鏡検査
-       大腸造影検査
-       腹部単純CT
-       腹部造影CT
+      <div className="flex-1">
+        <div className="border p-4 rounded-md shadow-md mb-4">
+          <H2Block heading='考えられる疾患'>
+            {!!sympsStore.length ? (
+              <>
+                {(() => {
+                  const diags = new Set(
+                    sympsStore
+                      .map((symp) => data.symp2diag[symp])
+                      .flat()
+                  );
+
+                  return [...diags].map((diag) => <Fragment key={diag}>
+                    <div className="flex items-center gap-2">
+                      <label className="flex items-center gap-2 text-lg">
+                        <input
+                          type="checkbox"
+                          value={diag}
+                          checked={diagsStore.includes(diag)}
+                          onChange={(event) => {
+                            const checked = event.target.checked;
+
+                            if (checked) {
+                              addDiagStore(diag);
+                            } else {
+                              deleteDiagStore(diag);
+                            }
+                          }}
+                          className="form-checkbox h-5 w-5 text-blue-600"
+                        />
+                        {diag}
+                      </label>
+                    </div>
+                  </Fragment>);
+                })()}
+              </>
+            ) : (
+              <div>受診理由を選択してください</div>
+            )}
+          </H2Block>
+        </div>
+
+        {!!examsStore.length && (<>
+          <div className="border p-4 rounded-md shadow-md mb-4">
+            <H2Block heading='追加検査'>
+              {examsStore.map((exam) => <Fragment key={exam}>
+                <div className="flex items-center gap-2">
+                  <FcCheckmark className="text-xl" />
+                  {exam}
+                </div>
+              </Fragment>)}
+            </H2Block>
+          </div>
+        </>)}
+
+        <div className="border p-4 rounded-md shadow-md">
+          <H2Block heading={'追加検査'}>
+            <ul className="list-disc list-inside">
+              <li>大腸内視鏡検査</li>
+              <li>大腸造影検査</li>
+              <li>腹部単純CT</li>
+              <li>腹部造影CT</li>
+            </ul>
+          </H2Block>
+        </div>
       </div>
     </main>
   </>);

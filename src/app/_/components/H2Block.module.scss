@@ -1,8 +1,9 @@
 .h2_block {
   & :global {
     h2 {
-      // color: red;
-      text-shadow: rgba(gray, .5) 2px 2px;
+      // text-shadow: rgba(gray, .5) 2px 2px;
     }
   }
+  margin-bottom: 1rem; // 追加する余白
+  margin-left: 3rem; // 左に余白を追加
 }
