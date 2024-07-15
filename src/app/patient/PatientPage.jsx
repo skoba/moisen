@@ -38,7 +38,7 @@ export default function PatientPage() {
   const updateSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialogStore);
 
   return (<>
-    <main className="flex min-h-screen flex-col gap-4 p-24  bg-white text-lg">
+    <main className="flex min-h-screen flex-col gap-4 p-24 text-lg">
       <PatientInfo />
       {!!sympsStore.length && (<>
         <H2Block heading={'受診理由（主訴・症状）'}>

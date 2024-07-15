@@ -49,7 +49,7 @@ export default function EncounterPage() {
   const [tmpText, setTmpText] = useState("");
 
   return (<>
-    <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
+    <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 text-lg">
       <div className="flex-1">
         <div className="border p-4 rounded-md shadow-md mb-4">
           <PatientInfo />
