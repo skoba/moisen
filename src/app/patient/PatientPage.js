@@ -8,6 +8,9 @@ import { twMerge } from 'tailwind-merge'
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
 
+import DatePicker from "../_/components/DatePicker";
+import { format, formatISO } from '@/libs/date-fns';
+
 export default function PatientPage() {
   const initStore = useStore((state) => state.init);
 
@@ -22,6 +25,10 @@ export default function PatientPage() {
   const examsStore = useStore((state) => state.exams);
   const addExamStore = useStore((state) => state.addExam);
   const deleteExamStore = useStore((state) => state.deleteExam);
+
+  const eventsStore = useStore((state) => state.events);
+  const addEventStore = useStore((state) => state.addEvent);
+  const deleteEventStore = useStore((state) => state.deleteEvent);
 
   return (<>
     <main className="flex min-h-screen flex-col gap-4 p-24">
@@ -47,6 +54,7 @@ export default function PatientPage() {
         symps: {JSON.stringify(sympsStore)}<br/>
         diags: {JSON.stringify(diagsStore)}<br/>
         exams: {JSON.stringify(examsStore)}<br/>
+        events: {JSON.stringify(eventsStore)}<br/>
       </div>}
 
       <button
@@ -91,10 +99,10 @@ export default function PatientPage() {
                 .flat()
             );
 
-            return [...exams].map((exam) => {
+            return [...exams].map((exam, idx) => {
               const examData = data.exams?.[exam];
 
-              return (<Fragment key={exam}>
+              return (<Fragment key={`${idx}-${exam}`}>
                 <div>
                   <label>
                     <input
@@ -115,6 +123,34 @@ export default function PatientPage() {
                     />
                     {exam}
                   </label>
+
+                  {examsStore.includes(exam) && (<>
+                    <DatePicker
+                      dateFormat='yyyy/MM/dd'
+                      selected={(new Map(eventsStore)).get(exam)?.start ?? null}
+                      onChange={(date, event) => {
+                        const value = (() => {
+                          if (!date) return '';
+                          // const _date = isEndOfDay ? endOfDay(date) : date;
+                          const _date = date;
+                          // return formatString ? format(_date, formatString) : formatISO(_date);
+                          return formatISO(_date);
+                        })();
+
+                        // console.warn(event?.type);
+                        if (event?.type === 'click') {
+                          if (value) {
+                            addEventStore({
+                              title: exam,
+                              start: value,
+                            });
+                          } else {
+                            deleteEventStore(exam);
+                          }
+                        }
+                      }}
+                    />
+                  </>)}
 
                   {!!examData && (<details className="ml-4">
                     <summary>詳細</summary>

@@ -5,6 +5,9 @@ const initialState = {
     symps: [],
     diags: [],
     exams: [],
+
+    // events: new Map([]),
+    events: [],
 };
 
 const useStore = create(
@@ -35,6 +38,19 @@ const useStore = create(
                 const set = new Set(state.exams);
                 set.delete(exam);
                 return { exams: [...set] };
+            }),
+
+            addEvent: (event) => set((state) => {
+                // console.warn(event);
+                // console.error(state);
+                const map = new Map([...state.events]);
+                map.set(event?.title ?? '', event);
+                return { events: [...map] };
+            }),
+            deleteEvent: (eventKey) => set((state) => {
+                const map = new Map(state.events);
+                map.delete(eventKey);
+                return { events: [...map] };
             }),
             // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
             // removeAllBears: () => set({ bears: 0 }),
