@@ -37,11 +37,16 @@ export default function EncounterPage() {
           </H2Block>
 
           <H2Block heading={'現病歴'}>
-            <div>特になし</div>
+            <div>既往で痔核、胃潰瘍のある方。１ヶ月前から便秘気味になっており、残便感もあり、時々腹痛もある。以前より体重減少もある。1週間前から便に血が混ざっており、心配となり外来受診となった。
+</div>
           </H2Block>
 
           <H2Block heading={'検査結果'}>
-            <div>異常なし</div>
+            <div>
+              <p>検尿：タンパク陰性、糖陰性</p>
+              <p>便：潜血陽性</p>
+              <p>血算：白血球数5200/μl, 赤血球数 380万/μl, Hb 10.8g/dl, ヘマトクリット 32%, 血小板数 38万/μl</p>
+            </div>
           </H2Block>
 
           <H2Block heading={'受診理由（主訴・症状）'}>
