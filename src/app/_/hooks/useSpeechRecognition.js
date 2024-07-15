@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 
 /** @see [Next.js+WebSpeechAPIで超簡単音声認識をしてみよう](https://zenn.dev/imaimai17468/articles/a3e29a59765ab6) */
 const useSpeechRecognition = ({
-  delimiter
+  delimiter,
+  filling,
 } = {
-  delimiter: '。\n'
+  delimiter: '。\n',
+  filling: '︙\n',
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState("");
@@ -42,7 +44,9 @@ const useSpeechRecognition = ({
       const results = event.results;
       for (let i = event.resultIndex; i < results.length; i++) {
         if (results[i].isFinal) {
-          setText((prevText) => prevText + results[i][0].transcript + delimiter);
+          setText((prevText) => (
+            prevText + (results[i][0].transcript ? results[i][0].transcript + delimiter : filling)
+          ));
           setTranscript("");
         } else {
           setTranscript(results[i][0].transcript);

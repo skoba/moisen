@@ -83,28 +83,31 @@ export default function EncounterPage() {
 
           <H2Block
             heading={<>
-              <span className="flex items-center justify-between">
+              <span className="flex flex-wrap items-center justify-between">
                 会話記録
-                <button
-                  className="btn"
-                  // disabled={isSubmittedDialogStore || transcript}
-                  disabled={isSubmittedDialogStore}
-                  onClick={() => {
-                    setIsRecording(prev => {
-                      const next = !prev;
+                <span className="flex flex-wrap items-center gap-2">
+                  {!!transcript && <span className="text-base font-normal">processing...</span>}
+                  <button
+                    className="btn"
+                    // disabled={isSubmittedDialogStore || transcript}
+                    disabled={isSubmittedDialogStore}
+                    onClick={() => {
+                      setIsRecording(prev => {
+                        const next = !prev;
 
-                      if (next) {
-                        ;
-                      } else {
-                        updateTmpDialogStore(tmpDialogStore + text);
-                      }
+                        if (next) {
+                          ;
+                        } else {
+                          updateTmpDialogStore(tmpDialogStore + text);
+                        }
 
-                      return next;
-                    });
-                  }}
-                >
-                  {isRecording ? <FaMicrophone /> : <FaMicrophoneSlash /> }
-                </button>
+                        return next;
+                      });
+                    }}
+                  >
+                    {isRecording ? <FaMicrophoneSlash /> : <FaMicrophone /> }
+                  </button>
+                </span>
               </span>
             </>}
           >
