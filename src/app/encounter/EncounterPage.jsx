@@ -106,14 +106,8 @@ export default function EncounterPage() {
               </span>
             </>}
           >
-            {/* <div>
-              <p>transcript: {transcript}</p>
-              <p>text: {text}</p>
-            </div> */}
             <textarea
-              className="textarea textarea-bordered w-full"
-              // placeholder="Bio"
-              // readOnly
+              className="textarea textarea-bordered w-full [field-sizing:content]"
               readOnly={isRecording || isSubmittedDialogStore}
               value={
                 isSubmittedDialogStore
@@ -121,13 +115,13 @@ export default function EncounterPage() {
                   : isRecording ? (tmpText + text + transcript) : tmpText
               }
               onChange={(event) => {
-                setTmpText(event.value);
+                setTmpText(event.value ?? '');
               }}
             />
 
             <button
               className="btn"
-              disabled={isRecording || isSubmittedDialogStore}
+              disabled={isRecording || isSubmittedDialogStore || !tmpText}
               onClick={() => {
                 updateDialogStore(tmpText);
                 updateIsSubmittedDialogStore(true);

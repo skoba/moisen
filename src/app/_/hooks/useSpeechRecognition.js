@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 
-  /** @see [Next.js+WebSpeechAPIで超簡単音声認識をしてみよう](https://zenn.dev/imaimai17468/articles/a3e29a59765ab6) */
-const useSpeechRecognition = () => {
+/** @see [Next.js+WebSpeechAPIで超簡単音声認識をしてみよう](https://zenn.dev/imaimai17468/articles/a3e29a59765ab6) */
+const useSpeechRecognition = ({
+  delimiter
+} = {
+  delimiter: '。\n'
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState("");
   const [transcript, setTranscript] = useState("");
@@ -15,7 +19,7 @@ const useSpeechRecognition = () => {
       recognition.continuous = true;
       recognition.interimResults = true;
       setRecognition(recognition);
-      console.log('useEffect:first');
+      // console.log('useEffect:first');
     }
   }, []);
 
@@ -23,13 +27,13 @@ const useSpeechRecognition = () => {
     if (!recognition) return;
     if (isRecording) {
       recognition.start();
-      console.log('recognition:start');
+      // console.log('recognition:start');
     } else {
       recognition.stop();
       setText("");
-      console.log('recognition:stop');
+      // console.log('recognition:stop');
     }
-    console.log('useEffect:second');
+    // console.log('useEffect:second');
   }, [isRecording, recognition]);
 
   useEffect(() => {
@@ -38,16 +42,16 @@ const useSpeechRecognition = () => {
       const results = event.results;
       for (let i = event.resultIndex; i < results.length; i++) {
         if (results[i].isFinal) {
-          setText((prevText) => prevText + results[i][0].transcript);
+          setText((prevText) => prevText + results[i][0].transcript + delimiter);
           setTranscript("");
         } else {
           setTranscript(results[i][0].transcript);
         }
-        console.log('recognition:onresult:for');
+        // console.log('recognition:onresult:for');
       }
-      console.log('recognition:onresult');
+      // console.log('recognition:onresult');
     };
-    console.log('useEffect:thrid');
+    // console.log('useEffect:thrid');
   }, [recognition]);
 
   return {
@@ -59,5 +63,5 @@ const useSpeechRecognition = () => {
 };
 
 export {
-    useSpeechRecognition,
+  useSpeechRecognition,
 };
