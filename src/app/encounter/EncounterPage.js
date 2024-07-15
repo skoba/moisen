@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
+import Calendar from "../_/components/Calendar";
 
 export default function EncounterPage() {
   const initStore = useStore((state) => state.init);
@@ -22,6 +23,10 @@ export default function EncounterPage() {
   const examsStore = useStore((state) => state.exams);
   // const addExamStore = useStore((state) => state.addExam);
   // const deleteExamStore = useStore((state) => state.deleteExam);
+
+  const eventsStore = useStore((state) => state.events);
+  // const addEventStore = useStore((state) => state.addEvent);
+  // const deleteEventStore = useStore((state) => state.deleteEvent);
 
   return (<>
     <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
@@ -124,6 +129,11 @@ export default function EncounterPage() {
             </H2Block>
           </div>
         </>)}
+
+      {!!eventsStore.length && (
+        <Calendar events={[...(new Map(eventsStore)).values()]} />
+      )}
+
 
         <div className="border p-4 rounded-md shadow-md">
           <H2Block heading={'追加検査'}>
