@@ -4,6 +4,7 @@ import data from "./data";
 import { Fragment } from "react";
 import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
+import PatientInfo from "../_/components/PatientInfo";
 
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
@@ -32,18 +33,7 @@ export default function EncounterPage() {
     <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
       <div className="flex-1">
         <div className="border p-4 rounded-md shadow-md mb-4">
-          <H2Block heading={'患者情報'}>
-            <p className="text-md">小林慎治、54歳、男性</p>
-          </H2Block>
-
-          <H2Block heading={'現病歴'}>
-            <div>特になし</div>
-          </H2Block>
-
-          <H2Block heading={'検査結果'}>
-            <div>異常なし</div>
-          </H2Block>
-
+          <PatientInfo />
           <H2Block heading={'受診理由（主訴・症状）'}>
             {Object.keys(data.symp2diag).map((symp) => <Fragment key={symp}>
               <div className="flex items-center gap-2">
@@ -135,7 +125,7 @@ export default function EncounterPage() {
       )}
 
 
-        <div className="border p-4 rounded-md shadow-md">
+        {/* <div className="border p-4 rounded-md shadow-md">
           <H2Block heading={'追加検査'}>
             <ul className="list-disc list-inside">
               <li>大腸内視鏡検査</li>
@@ -144,7 +134,7 @@ export default function EncounterPage() {
               <li>腹部造影CT</li>
             </ul>
           </H2Block>
-        </div>
+        </div> */}
       </div>
     </main>
   </>);
