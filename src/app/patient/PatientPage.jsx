@@ -52,7 +52,7 @@ export default function PatientPage() {
 
       {!!dialogStore && (<>
         <H2Block heading={'診療記録'}>
-          <div>{dialogStore}</div>
+          <div className="whitespace-pre">{dialogStore}</div>
         </H2Block>
       </>)}
 

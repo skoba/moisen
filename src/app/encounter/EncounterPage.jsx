@@ -36,6 +36,9 @@ export default function EncounterPage() {
   const dialogStore = useStore((state) => state.dialog);
   const updateDialogStore = useStore((state) => state.updateDialog);
 
+  const tmpDialogStore = useStore((state) => state.tmpDialog);
+  const updateTmpDialogStore = useStore((state) => state.updateTmpDialog);
+
   const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialog);
   const updateIsSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialog);
 
@@ -45,8 +48,6 @@ export default function EncounterPage() {
     isRecording,
     setIsRecording,
   } = useSpeechRecognition();
-
-  const [tmpText, setTmpText] = useState("");
 
   return (<>
     <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 text-lg">
@@ -86,7 +87,8 @@ export default function EncounterPage() {
                 会話記録
                 <button
                   className="btn"
-                  disabled={isSubmittedDialogStore || transcript}
+                  // disabled={isSubmittedDialogStore || transcript}
+                  disabled={isSubmittedDialogStore}
                   onClick={() => {
                     setIsRecording(prev => {
                       const next = !prev;
@@ -94,7 +96,7 @@ export default function EncounterPage() {
                       if (next) {
                         ;
                       } else {
-                        setTmpText(tmpText + text);
+                        updateTmpDialogStore(tmpDialogStore + text);
                       }
 
                       return next;
@@ -112,18 +114,18 @@ export default function EncounterPage() {
               value={
                 isSubmittedDialogStore
                   ? dialogStore
-                  : isRecording ? (tmpText + text + transcript) : tmpText
+                  : isRecording ? (tmpDialogStore + text + transcript) : tmpDialogStore
               }
               onChange={(event) => {
-                setTmpText(event.value ?? '');
+                updateTmpDialogStore(event.value ?? '');
               }}
             />
 
             <button
               className="btn"
-              disabled={isRecording || isSubmittedDialogStore || !tmpText}
+              disabled={isRecording || isSubmittedDialogStore || !tmpDialogStore}
               onClick={() => {
-                updateDialogStore(tmpText);
+                updateDialogStore(tmpDialogStore);
                 updateIsSubmittedDialogStore(true);
               }}
             >
