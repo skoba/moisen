@@ -8,6 +8,9 @@ const initialState = {
 
     // events: new Map([]),
     events: [],
+
+    dialog: "",
+    isSubmittedDialog: false,
 };
 
 const useStore = create(
@@ -52,6 +55,10 @@ const useStore = create(
                 map.delete(eventKey);
                 return { events: [...map] };
             }),
+
+            // setText: (newText) => set({ text: newText }),
+            updateDialog: (dialog) => set({ dialog }),
+            updateIsSubmittedDialog: (isSubmittedDialog) => set({ isSubmittedDialog }),
             // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
             // removeAllBears: () => set({ bears: 0 }),
             // updateBears: (newBears) => set({ bears: newBears }),

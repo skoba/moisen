@@ -1,7 +1,7 @@
 'use client';
 
 import data from "./data";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
 import PatientInfo from "../_/components/PatientInfo";
@@ -9,6 +9,10 @@ import PatientInfo from "../_/components/PatientInfo";
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
 import Calendar from "../_/components/Calendar";
+
+import { useSpeechRecognition } from "@/app/_/hooks/useSpeechRecognition";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa6";
+
 
 export default function EncounterPage() {
   const initStore = useStore((state) => state.init);
@@ -28,6 +32,21 @@ export default function EncounterPage() {
   const eventsStore = useStore((state) => state.events);
   // const addEventStore = useStore((state) => state.addEvent);
   // const deleteEventStore = useStore((state) => state.deleteEvent);
+
+  const dialogStore = useStore((state) => state.dialog);
+  const updateDialogStore = useStore((state) => state.updateDialog);
+
+  const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialog);
+  const updateIsSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialog);
+
+  const {
+    text,
+    transcript,
+    isRecording,
+    setIsRecording,
+  } = useSpeechRecognition();
+
+  const [tmpText, setTmpText] = useState("");
 
   return (<>
     <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
@@ -59,6 +78,63 @@ export default function EncounterPage() {
                 </label>
               </div>
             </Fragment>)}
+          </H2Block>
+
+          <H2Block
+            heading={<>
+              <span className="flex items-center justify-between">
+                会話記録
+                <button
+                  className="btn"
+                  disabled={isSubmittedDialogStore || transcript}
+                  onClick={() => {
+                    setIsRecording(prev => {
+                      const next = !prev;
+
+                      if (next) {
+                        ;
+                      } else {
+                        setTmpText(tmpText + text);
+                      }
+
+                      return next;
+                    });
+                  }}
+                >
+                  {isRecording ? <FaMicrophone /> : <FaMicrophoneSlash /> }
+                </button>
+              </span>
+            </>}
+          >
+            {/* <div>
+              <p>transcript: {transcript}</p>
+              <p>text: {text}</p>
+            </div> */}
+            <textarea
+              className="textarea textarea-bordered w-full"
+              // placeholder="Bio"
+              // readOnly
+              readOnly={isRecording || isSubmittedDialogStore}
+              value={
+                isSubmittedDialogStore
+                  ? dialogStore
+                  : isRecording ? (tmpText + text + transcript) : tmpText
+              }
+              onChange={(event) => {
+                setTmpText(event.value);
+              }}
+            />
+
+            <button
+              className="btn"
+              disabled={isRecording || isSubmittedDialogStore}
+              onClick={() => {
+                updateDialogStore(tmpText);
+                updateIsSubmittedDialogStore(true);
+              }}
+            >
+              患者に送信
+            </button>
           </H2Block>
         </div>
       </div>
