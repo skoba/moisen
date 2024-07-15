@@ -120,7 +120,7 @@ export default function EncounterPage() {
                   : isRecording ? (tmpDialogStore + text + transcript) : tmpDialogStore
               }
               onChange={(event) => {
-                updateTmpDialogStore(event.value ?? '');
+                updateTmpDialogStore(event.target.value ?? '');
               }}
             />
 
