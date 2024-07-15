@@ -1,6 +1,6 @@
 'use client';
 
-import data from "./data";
+import data from "@/app/_/data/encounter";
 import { Fragment, useState } from "react";
 import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
