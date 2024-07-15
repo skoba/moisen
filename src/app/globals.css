@@ -24,11 +24,14 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  border: 1px solid #ccc;
 }
 
 h2 {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.3rem; /* ここでh2の文字サイズを調整 */
+  /* 下に余白を追加 */
+  margin-bottom: 0.5rem;
 }
 
 @layer utilities {
