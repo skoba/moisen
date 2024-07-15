@@ -9,36 +9,24 @@ export default function Calendar(props) {
     events,
   } = props;
 
-  // const now = Date.now();
-  // const dateFormatStr = 'yyyy-MM-dd';
-
   return (<>
-    <FullCalendar
-      plugins={[
-        dayGridPlugin,
-        timeGridPlugin,
-        listPlugin
-      ]}
-      initialView="dayGridMonth"
-      // locales={[jaLocale]}
-      // locale='ja'
-      headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,listWeek',
-      }}
-      // events={[
-      //   {
-      //     title:'event title',
-      //     start: format(Date.now(), dateFormatStr),
-      //   },
-      //   {
-      //     title: 'event title 2',
-      //     start: format(addDays(now, 2), dateFormatStr),
-      //     end: format(addDays(now, 5), dateFormatStr),
-      //   }
-      // ]}
-      events={events}
-    />
+    <div style={{ width: '80%', margin: '50px auto 0 auto' }}>
+      <FullCalendar
+        plugins={[
+          dayGridPlugin,
+          timeGridPlugin,
+          listPlugin
+        ]}
+        initialView="dayGridMonth"
+        // locales={[jaLocale]}
+        // locale='ja'
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,listWeek',
+        }}
+        events={events}
+      />
+    </div>
   </>);
 }

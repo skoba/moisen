@@ -4,6 +4,7 @@ import data from "./data";
 import { Fragment } from "react";
 import { FcHome, FcCheckmark, FcCancel } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
+import PatientInfo from "../_/components/PatientInfo";
 
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
@@ -32,23 +33,7 @@ export default function EncounterPage() {
     <main className="flex min-h-screen flex-col lg:flex-row gap-4 p-8 bg-white text-lg">
       <div className="flex-1">
         <div className="border p-4 rounded-md shadow-md mb-4">
-          <H2Block heading={'患者情報'}>
-            <p className="text-md">小林慎治、54歳、男性</p>
-          </H2Block>
-
-          <H2Block heading={'現病歴'}>
-            <div>既往で痔核、胃潰瘍のある方。１ヶ月前から便秘気味になっており、残便感もあり、時々腹痛もある。以前より体重減少もある。1週間前から便に血が混ざっており、心配となり外来受診となった。
-</div>
-          </H2Block>
-
-          <H2Block heading={'検査結果'}>
-            <div>
-              <p>検尿：タンパク陰性、糖陰性</p>
-              <p>便：潜血陽性</p>
-              <p>血算：白血球数5200/μl, 赤血球数 380万/μl, Hb 10.8g/dl, ヘマトクリット 32%, 血小板数 38万/μl</p>
-            </div>
-          </H2Block>
-
+          <PatientInfo />
           <H2Block heading={'受診理由（主訴・症状）'}>
             {Object.keys(data.symp2diag).map((symp) => <Fragment key={symp}>
               <div className="flex items-center gap-2">
@@ -138,18 +123,6 @@ export default function EncounterPage() {
       {!!eventsStore.length && (
         <Calendar events={[...(new Map(eventsStore)).values()]} />
       )}
-
-
-        <div className="border p-4 rounded-md shadow-md">
-          <H2Block heading={'追加検査'}>
-            <ul className="list-disc list-inside">
-              <li>大腸内視鏡検査</li>
-              <li>大腸造影検査</li>
-              <li>腹部単純CT</li>
-              <li>腹部造影CT</li>
-            </ul>
-          </H2Block>
-        </div>
       </div>
     </main>
   </>);

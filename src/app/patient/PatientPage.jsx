@@ -1,12 +1,13 @@
 'use client';
 
-import data from "./data";
+import data from "../encounter/data";
 import { Fragment } from "react";
 import { FcHome } from "react-icons/fc";
 import { twMerge } from 'tailwind-merge'
 
 import { useStore } from "@/stores/encounter";
 import H2Block from "../_/components/H2Block";
+import PatientInfo from "../_/components/PatientInfo";
 
 import DatePicker from "../_/components/DatePicker";
 import { format, formatISO } from '@/libs/date-fns';
@@ -31,41 +32,8 @@ export default function PatientPage() {
   const deleteEventStore = useStore((state) => state.deleteEvent);
 
   return (<>
-    <main className="flex min-h-screen flex-col gap-4 p-24">
-      {/** for debug */}
-      {<div className="p-4 block bg-gray-300/70 rounded">
-        <div className={twMerge(
-          "flex items-center gap-2",
-          [
-            "[&:not(:first-child)]:[&>a]:flex",
-            "[&:not(:first-child)]:[&>a]:relative",
-            "[&:not(:first-child)]:[&>a]:gap-2",
-            "[&:not(:first-child)]:[&>a]:before:content-['>']",
-            "[&:not(:first-child)]:[&>a]:before:text-gray-500",
-          ]
-        )}>
-          <a href="/"><FcHome /></a>
-          <a
-            className="text-blue-500 hover:text-red-500"
-            href="/encounter"
-          >encounter</a><br/>
-        </div>
-        <br/>
-        symps: {JSON.stringify(sympsStore)}<br/>
-        diags: {JSON.stringify(diagsStore)}<br/>
-        exams: {JSON.stringify(examsStore)}<br/>
-        events: {JSON.stringify(eventsStore)}<br/>
-      </div>}
-
-      <button
-        className="p-2 w-fit text-white bg-gray-500 rounded"
-        onClick={() => initStore()}
-      >リセット</button><br/>
-
-      <h1>診察</h1>
-      <div>患者情報</div>
-      氏名：小林慎治、54歳、男性
-
+    <main className="flex min-h-screen flex-col gap-4 p-24  bg-white text-lg">
+      <PatientInfo />
       {!!sympsStore.length && (<>
         <H2Block heading={'受診理由（主訴・症状）'}>
           {sympsStore.map((symp) => <Fragment key={symp}>
@@ -76,12 +44,8 @@ export default function PatientPage() {
         </H2Block>
       </>)}
 
-      <div>現病歴</div>
-
-      <div>検査結果</div>
-
       {!!diagsStore.length && (<>
-        <H2Block heading='今の検査で考えられる病気は以下の通りです。'>
+        <H2Block heading='検査の結果、考えられる病気は以下の通りです'>
           {diagsStore.map((diag) => <Fragment key={diag}>
             <div>
               {diag}
@@ -91,7 +55,7 @@ export default function PatientPage() {
       </>)}
 
       {!!diagsStore.length && (<>
-        <H2Block heading='追加で以下の検査を提案します。'>
+        <H2Block heading='追加で以下の検査を提案します'>
           {(() => {
             const exams = new Set(
               diagsStore
@@ -104,11 +68,10 @@ export default function PatientPage() {
 
               return (<Fragment key={`${idx}-${exam}`}>
                 <div>
-                  <label>
+                  <label className="flex items-center gap-2">
                     <input
-                      // id="symptom"
                       type="checkbox"
-                      // name="interest"
+                      className="h-5 w-5"
                       value={exam}
                       checked={examsStore.includes(exam)}
                       onChange={(event) => {
@@ -155,7 +118,7 @@ export default function PatientPage() {
                   {!!examData && (<details className="ml-4">
                     <summary>詳細</summary>
                     <div>{examData.desc}</div>
-                    <div>{examData.point} points</div>
+                    <div>{examData.point * 3}円</div>
                   </details>)}
                 </div>
               </Fragment>);
@@ -163,13 +126,6 @@ export default function PatientPage() {
           })()}
         </H2Block>
       </>)}
-
-      <div>追加検査
-        大腸内視鏡検査
-       大腸造影検査
-       腹部単純CT
-       腹部造影CT
-      </div>
     </main>
   </>);
 }
