@@ -31,6 +31,12 @@ export default function PatientPage() {
   const addEventStore = useStore((state) => state.addEvent);
   const deleteEventStore = useStore((state) => state.deleteEvent);
 
+  const dialogStore = useStore((state) => state.dialog);
+  // const updateDialogStore = useStore((state) => state.updateDialog);
+
+  const isSubmittedDialogStore = useStore((state) => state.isSubmittedDialogStore);
+  const updateSubmittedDialogStore = useStore((state) => state.updateIsSubmittedDialogStore);
+
   return (<>
     <main className="flex min-h-screen flex-col gap-4 p-24  bg-white text-lg">
       <PatientInfo />
@@ -41,6 +47,12 @@ export default function PatientPage() {
               {symp}
             </div>
           </Fragment>)}
+        </H2Block>
+      </>)}
+
+      {!!dialogStore && (<>
+        <H2Block heading={'診療記録'}>
+          <div>{dialogStore}</div>
         </H2Block>
       </>)}
 
