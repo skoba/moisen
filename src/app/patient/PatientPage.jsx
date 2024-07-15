@@ -118,7 +118,7 @@ export default function PatientPage() {
                   {!!examData && (<details className="ml-4">
                     <summary>詳細</summary>
                     <div>{examData.desc}</div>
-                    <div>{examData.point} points</div>
+                    <div>{examData.point * 3}円</div>
                   </details>)}
                 </div>
               </Fragment>);

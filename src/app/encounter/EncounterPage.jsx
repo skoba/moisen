@@ -123,18 +123,6 @@ export default function EncounterPage() {
       {!!eventsStore.length && (
         <Calendar events={[...(new Map(eventsStore)).values()]} />
       )}
-
-
-        {/* <div className="border p-4 rounded-md shadow-md">
-          <H2Block heading={'追加検査'}>
-            <ul className="list-disc list-inside">
-              <li>大腸内視鏡検査</li>
-              <li>大腸造影検査</li>
-              <li>腹部単純CT</li>
-              <li>腹部造影CT</li>
-            </ul>
-          </H2Block>
-        </div> */}
       </div>
     </main>
   </>);
